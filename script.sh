@@ -9,8 +9,9 @@
 #FULL TABLE 
 #===========================================================
 full_table() {
-    echo
     
+    echo "The full multiplication table for 3: "
+
         for ((i=1; i<=10; i++)) 
             do 
                 product=$(( NUM * i ))
@@ -38,45 +39,39 @@ eval_partial_table() {
         else 
             echo -e "Invalid range. Showing full table instead.\n"
 
-            echo -e "The full multiplication table for 3:\n"
             full_table
         fi
 
 }
 
 
-partial_table() {
 
-echo 
+validate_ptable_input() {
+
+if ! [[ $1 =~ ^[1-9][0-9]*$ ]] 
+    then 
+    echo "$1 is not a valid integer, Enter a valid integer: "
+    
+elif (( $1 < 1 || $1 > 10 ))
+    then 
+    echo "$1 is not an integer from 1 to 10. Enter an integer from 1 to 10"
+fi
+
+}
+
+partial_table() {
 
 read -p "Enter the starting Integer (between 1 and 10): " a
 echo 
+validate_ptable_input $a
 
-if ! [[ $a =~ ^[1-9][0-9]*$ ]] 
-    then 
-    echo "$a is not a valid integer, Enter a valid integer: "
+read -p "Enter the ending Integer (between 1 and 10): " b
+echo 
+validate_ptable_input $b
     
-elif (( a < 1 || a > 10 ))
-    then 
-    echo "$a is not an integer from 1 to 10. Enter an integer from 1 to 10"
-
-else   
-    read -p "Enter the ending Integer (between 1 and 10): " b
-    echo 
-
-    if ! [[ $b =~ ^[1-9][0-9]*$ ]]
-        then                
-        echo "$b is not a valid integer, Enter a valid integer: "
-    elif (( b < 1 || b > 10 ))
-        then
-        echo "$b is not an integer from 1 to 10. Enter an integer from 1 to 10."
-    
-    else 
-    eval_partial_table    
-    fi
-fi 
-
+eval_partial_table     
 }
+
 
 #===========================================================
 #CHOOSE TABLE TYPE
@@ -85,6 +80,7 @@ fi
 prompt_table_type() {
 
 read -p "Do you want a full table or a partial table? (Enter 'f' for full 'p' for partial): " TABLE_LEN
+echo
 
 if [[ $TABLE_LEN == "f" ]] #if TABLE_LEN is full, then full tab
   then 
@@ -107,7 +103,6 @@ fi
 
 input_validation() {
 
-echo
 read -p "Enter an integer for the multiplication table: " NUM
 echo 
 
