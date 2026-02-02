@@ -27,7 +27,8 @@ eval_partial_table() {
                     echo "${NUM} x ${i} = ${product}"
                     done 
         else 
-            echo -e "Invalid range. Showing full table instead.\n"
+            echo -e "Invalid range (starting integer: $a ending integer: $b)"
+            echo -e "Showing full table instead.\n"
 
             full_table
         fi
@@ -50,15 +51,127 @@ fi
 
 partial_table() {
 
-read -p "Enter the starting Integer (between 1 and 10): " a
-echo 
-validate_ptable_input $a
+p_table=true
+while $p_table
 
-read -p "Enter the ending Integer (between 1 and 10): " b
-echo 
-validate_ptable_input $b
-    
+do
+    read -p "Enter a starting Integer (between 1 and 10): " a
+    echo 
+
+        #WIP: Add exit option  with an if 
+
+        if ! [[ $a =~ ^[1-9][0-9]*$ ]] 
+            then 
+
+            while $p_table 
+                do
+                read -p "$a is not a valid integer, Enter a valid integer: " a
+                    if  [[ $a =~ ^[1-9][0-9]*$ ]]
+                        then 
+                            if  (( $a < 1 || $a > 10 ))
+                                then 
+                                continue 2
+                            else 
+                                p_table=false
+                                
+                            fi           
+                    else
+                        continue
+                    fi
+            done
+
+                
+
+        elif (( $a < 1 || $a > 10 ))
+           then  
+            while $p_table
+            do
+                read -p "$a is not an integer from 1 to 10. Enter an integer from 1 to 10: " a
+                if  [[ $a =~ ^[1-9][0-9]*$ ]]
+                        then 
+                            if  (( $a < 1 || $a > 10 ))
+                                then 
+                                continue 
+                            else 
+                                p_table=false    
+                            
+                            fi           
+                else
+                        continue 2
+                fi    
+   
+            done        
+        else 
+            break
+
+        fi
+
+done
+
+# validate_ptable_input $b
+
+
+p_table=true
+while $p_table
+
+do
+    read -p "Enter an ending Integer (between 1 and 10): " b
+    echo 
+
+        #WIP: Add exit option  with an if 
+
+        if ! [[ $b =~ ^[1-9][0-9]*$ ]] 
+            then 
+
+            while $p_table 
+                do
+                read -p "$b is not a valid integer, Enter a valid integer: " b
+                    if  [[ $b =~ ^[1-9][0-9]*$ ]]
+                        then 
+                            if  (( $b < 1 || $b > 10 ))
+                                then 
+                                continue 2
+                            else 
+                                p_table=false
+                                
+                            fi           
+                    else
+                        continue
+                    fi
+            done
+
+                
+
+        elif (( $b < 1 || $b > 10 ))
+           then  
+            while $p_table
+            do
+                read -p "$b is not an integer from 1 to 10. Enter an integer from 1 to 10: " b
+                if  [[ $b =~ ^[1-9][0-9]*$ ]]
+                        then 
+                            if  (( $b < 1 || $b > 10 ))
+                                then 
+                                continue 
+                            else 
+                                p_table=false    
+                            
+                            fi           
+                else
+                        continue 2
+                fi    
+   
+            done        
+        else 
+            break
+
+        fi
+
+done
+
+
+
 eval_partial_table     
+
 }
 
 
@@ -76,12 +189,13 @@ while $prompt_type
     elif [[ $TABLE_LEN == "f" ]] #if TABLE_LEN is full, then full tab
     then 
             full_table 
-            prompt_type=false
-
+            #prompt_type=false
+            break
     elif [[ $TABLE_LEN == "p" ]] #If TABLE_LEN is part, then part tab
     then 
         partial_table
-        prompt_type=false
+        #prompt_type=false
+        break
     else
         while $prompt_type
         do
@@ -91,16 +205,18 @@ while $prompt_type
             then 
                 exit 0 # 0,1 or empty?
 
-            elif [[ $TABLE_LEN == "f" ]] #if TABLE_LEN is full, then full tab
+            elif [[ $TABLE_LEN == "f" ]] #if TABLE_LEN is f, then full table
             then 
                     full_table
-                    prompt_type=false
-
+                    #prompt_type=false
+                    break
+                    break 2
             elif [[ $TABLE_LEN == "p" ]] #If TABLE_LEN is part, then part tab
             then 
                 partial_table
-                $prompt_type=false
-            
+                #prompt_type=false
+                break
+                break 2
             else
                 continue
             fi
