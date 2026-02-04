@@ -217,8 +217,8 @@ while $prompt_type
         prompt_type=false
         
     else
-        while $prompt_type      # Refactoring looks attractive here. But it's significantly 
-                                # different from the previous code block and is part of the if-else logic  
+        while $prompt_type      # Refactoring looks attractive here. While the structure looks similar, it's quite 
+                                # different from the previous code block. For example, it is part of the if-else logic  
                                 # of the previous block.
         do
         read -p "Enter either p or f, or q to quit: "   TABLE_LEN
